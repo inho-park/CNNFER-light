@@ -23,7 +23,7 @@ print("Loaded model from disk")
 
 # pass here your video path
 # you may download one from here : https://www.pexels.com/video/three-girls-laughing-5273028/
-cap = cv2.VideoCapture("D:\\sample_video\\emotion_sample2.mp4")
+cap = cv2.VideoCapture("D:\\sample_video\\emotion_sample3.mp4")
 
 fourcc = cv2.VideoWriter_fourcc(*'DIVX')
 w = round(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
@@ -33,7 +33,7 @@ out = cv2.VideoWriter('video/output.avi', fourcc, 25.0, (w, h))
 while True:
     # Find haar cascade to draw bounding box around face
     ret, frame = cap.read()
-    # frame = cv2.resize(frame, (1280, 720))
+    # frame = cv2.resize(frame, (int(w), int(h)))
     if not ret:
         break
     if ret:
@@ -63,7 +63,7 @@ while True:
             # 분석한 값을 표현할 위치
             cv2.putText(frame, emotion_dict[maxindex], (x+5, y-20), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 0), 2, cv2.LINE_AA)
             result[maxindex] = result[maxindex] + 1
-        # cv2.imshow('Emotion Detection', frame)
+        cv2.imshow('Emotion Detection', frame)
         out.write(frame)
         # q 를 누르면 중단
         if cv2.waitKey(1) & 0xFF == ord('q'):

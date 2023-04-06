@@ -23,7 +23,7 @@ test_data_gen = ImageDataGenerator(rescale=1./255)
 
 # Preprocess all test images
 test_generator = test_data_gen.flow_from_directory(
-        'data2/test',
+        'data/test',
         target_size=(48, 48),
         batch_size=64,
         color_mode="grayscale",
