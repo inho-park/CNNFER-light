@@ -1,7 +1,8 @@
 import cv2
 import numpy as np
 from keras.models import model_from_json
-
+from moviepy.editor import VideoFileClip, AudioFileClip
+import os
 
 emotion_dict = {0: "Angry", 1: "Disgusted", 2: "Fearful", 3: "Happy", 4: "Neutral", 5: "Sad", 6: "Surprised"}
 
@@ -17,19 +18,20 @@ emotion_model = model_from_json(loaded_model_json)
 # load weights into new model
 emotion_model.load_weights("model/emotion_model.h5")
 print("Loaded model from disk")
-
 # start the webcam feed
 #cap = cv2.VideoCapture(0)
 
 # pass here your video path
 # you may download one from here : https://www.pexels.com/video/three-girls-laughing-5273028/
-cap = cv2.VideoCapture("D:\\sample_video\\emotion_sample3.mp4")
+cap = cv2.VideoCapture("./sample_video/emotion_sample5.mp4")
+audioclip = AudioFileClip("./sample_video/emotion_sample5.mp4")
 
-fourcc = cv2.VideoWriter_fourcc(*'DIVX')
+fourcc = cv2.VideoWriter_fourcc(*'mp4v')
 w = round(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
 h = round(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
+fps = cap.get(cv2.CAP_PROP_FPS)
 
-out = cv2.VideoWriter('video/output.avi', fourcc, 25.0, (w, h))
+out = cv2.VideoWriter('video/output.mp4', fourcc, fps, (w, h))
 while True:
     # Find haar cascade to draw bounding box around face
     ret, frame = cap.read()
@@ -71,7 +73,15 @@ while True:
 
 for i in range(0, 7):
     print(result[i], end=" ")
-
+print()
 cap.release()
 out.release()
 cv2.destroyAllWindows()
+
+
+audioclip.write_audiofile('./audio/audio_sample.mp3')
+videoClip = VideoFileClip('./video/output.mp4')
+videoClip.audio = audioclip
+videoClip.write_videofile("./video/complete.mp4")
+os.remove('./audio/audio_sample.mp3')
+os.remove('./video/output.mp4')

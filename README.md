@@ -1,5 +1,6 @@
 # FER ( Facial Emotion Recognition )
 ## keras 를 이용하여 간단한 Emotion Recognition 기능 구현
+
 ***
 1. 사용 전에 우선 data 에 fer 2013 dataset 파일 구하기
 2. data/test, data/train 형태로 데이터들을 담기
