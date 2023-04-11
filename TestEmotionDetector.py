@@ -22,9 +22,8 @@ print("Loaded model from disk")
 #cap = cv2.VideoCapture(0)
 
 # pass here your video path
-# you may download one from here : https://www.pexels.com/video/three-girls-laughing-5273028/
-cap = cv2.VideoCapture("./sample_video/emotion_sample5.mp4")
-audioclip = AudioFileClip("./sample_video/emotion_sample5.mp4")
+cap = cv2.VideoCapture("./sample_video/emotion_sample9.webm")
+audioclip = AudioFileClip("./sample_video/emotion_sample9.webm")
 
 fourcc = cv2.VideoWriter_fourcc(*'mp4v')
 w = round(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
