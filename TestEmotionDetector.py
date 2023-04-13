@@ -19,22 +19,22 @@ emotion_model = model_from_json(loaded_model_json)
 emotion_model.load_weights("model/emotion_model.h5")
 print("Loaded model from disk")
 # start the webcam feed
-#cap = cv2.VideoCapture(0)
+# cap = cv2.VideoCapture(0)
 
 # pass here your video path
-cap = cv2.VideoCapture("./sample_video/emotion_sample9.webm")
-audioclip = AudioFileClip("./sample_video/emotion_sample9.webm")
+cap = cv2.VideoCapture("./video/test.mp4")
 
 fourcc = cv2.VideoWriter_fourcc(*'mp4v')
 w = round(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
 h = round(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
 fps = cap.get(cv2.CAP_PROP_FPS)
+print(fps)
 
 out = cv2.VideoWriter('video/output.mp4', fourcc, fps, (w, h))
 while True:
     # Find haar cascade to draw bounding box around face
     ret, frame = cap.read()
-    # frame = cv2.resize(frame, (int(w), int(h)))
+    # frame = cv2.resize(frame, 640, 480)
     if not ret:
         break
     if ret:
@@ -77,10 +77,9 @@ cap.release()
 out.release()
 cv2.destroyAllWindows()
 
-
-audioclip.write_audiofile('./audio/audio_sample.mp3')
+clip = AudioFileClip('./video/test.mp4')
 videoClip = VideoFileClip('./video/output.mp4')
-videoClip.audio = audioclip
+videoClip.audio = clip
 videoClip.write_videofile("./video/complete.mp4")
-os.remove('./audio/audio_sample.mp3')
 os.remove('./video/output.mp4')
+os.remove('./video/test.mp4')
