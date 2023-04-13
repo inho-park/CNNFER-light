@@ -6,7 +6,7 @@ import os
 
 emotion_dict = {0: "Angry", 1: "Disgusted", 2: "Fearful", 3: "Happy", 4: "Neutral", 5: "Sad", 6: "Surprised"}
 
-
+emotion = ['Angry', 'Disgusted', 'Fearful', 'Happy', 'Neutral', 'Sad', 'Surprised']
 result = [0, 0, 0, 0, 0, 0, 0]
 
 # load json and create model
@@ -71,7 +71,7 @@ while True:
             break
 
 for i in range(0, 7):
-    print(result[i], end=" ")
+    print(emotion[i] + f" : {result[i]}")
 print()
 cap.release()
 out.release()

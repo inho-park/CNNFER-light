@@ -14,7 +14,7 @@ validation_data_gen = ImageDataGenerator(rescale=1./255)
 # Preprocess all test images
 # 학습용 이미지 자료 관련 설정
 train_generator = train_data_gen.flow_from_directory(
-        'data/train',
+        'data2/train',
         target_size=(48, 48),
         batch_size=64,
         color_mode="grayscale",
@@ -23,7 +23,7 @@ train_generator = train_data_gen.flow_from_directory(
 # Preprocess all train images
 # 확인용 이미지 자료 관련 설정
 validation_generator = validation_data_gen.flow_from_directory(
-        'data/test',
+        'data2/test',
         target_size=(48, 48),
         batch_size=64,
         color_mode="grayscale",

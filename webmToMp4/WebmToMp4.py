@@ -1,4 +1,7 @@
 import os
+import sys
+
+
 
 
 def convert_webm_mp4_subprocess(input_file, output_file):
@@ -8,6 +11,10 @@ def convert_webm_mp4_subprocess(input_file, output_file):
     os.system(command_path + command_ffm)
 
 
-convert_webm_mp4_subprocess('../webm/emotion_sample2.webm', '../video/test.mp4')
+# convert_webm_mp4_subprocess('../video/test.webm', '../video/test.mp4')
+def main(argv):
+    convert_webm_mp4_subprocess(argv[1], argv[2])
 
-# ffm.convert_webm_mp4_module('../webm/emotion_sample2.webm', '../video/test.mp4')
+
+if __name__ == "__main__":
+    main(sys.argv)
