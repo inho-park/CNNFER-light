@@ -22,13 +22,15 @@ print("Loaded model from disk")
 # cap = cv2.VideoCapture(0)
 
 # pass here your video path
-cap = cv2.VideoCapture("./video/test.mp4")
+cap = cv2.VideoCapture("./video/test4.mp4")
 
 fourcc = cv2.VideoWriter_fourcc(*'mp4v')
 w = round(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
 h = round(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
 fps = cap.get(cv2.CAP_PROP_FPS)
 print(fps)
+
+flag = True
 
 out = cv2.VideoWriter('video/output.mp4', fourcc, fps, (w, h))
 while True:
@@ -48,22 +50,28 @@ while True:
 
         # take each face available on the camera and Preprocess it
         for (x, y, w, h) in num_faces:
-            # 얼굴에 직사각형 그림
-            cv2.rectangle(frame, (x, y-50), (x+w, y+h+10), (0, 255, 0), 4)
-            # 얼굴 부분만 직사각형으로 잘라 회색 이미지로 변환
-            roi_gray_frame = gray_frame[y:y + h, x:x + w]
-            # 회색 이미지를 48 x 48 픽셀로 바꾸기 => 트레인에 사용한 사진 픽셀값
-            cropped_img = np.expand_dims(np.expand_dims(cv2.resize(roi_gray_frame, (48, 48)), -1), 0)
+            if flag:
+                flag = False
+                # 얼굴에 직사각형 그림
+                cv2.rectangle(frame, (x, y-50), (x+w, y+h+10), (0, 255, 0), 4)
+                # 얼굴 부분만 직사각형으로 잘라 회색 이미지로 변환
+                roi_gray_frame = gray_frame[y:y + h, x:x + w]
+                # 회색 이미지를 48 x 48 픽셀로 바꾸기 => 트레인에 사용한 사진 픽셀값
+                cropped_img = np.expand_dims(np.expand_dims(cv2.resize(roi_gray_frame, (48, 48)), -1), 0)
 
-            # 감정 예측 결과
-            # predict the emotions
-            emotion_prediction = emotion_model.predict(cropped_img)
-            maxindex = int(np.argmax(emotion_prediction))
-            # 원본 이미지
-            # 7개의 감정 인덱스와 매핑한 변수
-            # 분석한 값을 표현할 위치
-            cv2.putText(frame, emotion_dict[maxindex], (x+5, y-20), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 0), 2, cv2.LINE_AA)
-            result[maxindex] = result[maxindex] + 1
+                # 감정 예측 결과
+                # predict the emotions
+                emotion_prediction = emotion_model.predict(cropped_img)
+                maxindex = int(np.argmax(emotion_prediction))
+                # 원본 이미지
+                # 7개의 감정 인덱스와 매핑한 변수
+                # 분석한 값을 표현할 위치
+                cv2.putText(frame, emotion_dict[maxindex], (x+5, y-20), cv2.FONT_ITALIC, 1, (255, 0, 0), 2, cv2.LINE_AA)
+                result[maxindex] = result[maxindex] + 1
+            else:
+                flag = True
+                cv2.putText(frame, emotion_dict[maxindex], (x+5, y-20), cv2.FONT_ITALIC, 1, (255, 0, 0), 2, cv2.LINE_AA)
+
         cv2.imshow('Emotion Detection', frame)
         out.write(frame)
         # q 를 누르면 중단
@@ -77,9 +85,9 @@ cap.release()
 out.release()
 cv2.destroyAllWindows()
 
-clip = AudioFileClip('./video/test.mp4')
+clip = AudioFileClip('./video/test4.mp4')
 videoClip = VideoFileClip('./video/output.mp4')
 videoClip.audio = clip
-videoClip.write_videofile("./video/complete.mp4")
+videoClip.write_videofile("./video/complete4.mp4")
 os.remove('./video/output.mp4')
-os.remove('./video/test.mp4')
+# os.remove('./video/test.mp4')
